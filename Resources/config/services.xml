@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="cogimix.subsonic.plugin_provider" class="Cogipix\CogimixSubsonicBundle\Services\SubsonicPluginProvider">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="cogimix.subsonic_plugin_factory" />
+            <tag name="cogimix.plugin_provider"/>
+        </service>
+        <service id="cogimix.subsonic_plugin_factory" class="Cogipix\CogimixSubsonicBundle\Services\SubsonicPluginFactory">
+            <argument type="service" id="service_container"/>
+ 
+           
+        </service>
+         
+        <service id="cogimix.subsonic.menu_renderer" class="Cogipix\CogimixSubsonicBundle\ViewHooks\Menu\MenuItem">
+            <tag name="cogimix.menu_item"/>
+        </service>
+        <service id="cogimix.subsonic.modal_renderer" class="Cogipix\CogimixSubsonicBundle\ViewHooks\Modal\ModalRenderer">
+            <tag name="cogimix.modal_renderer"/>
+        </service>
+           
+        <service id="cogimix_subsonic.jsimport_renderer" class="Cogipix\CogimixSubsonicBundle\ViewHooks\Javascript\JavascriptImportRenderer">
+            <tag name="cogimix.jsimport_renderer"/>
+        </service>
+        <service id="cogimix_subsonic.cssimport_renderer" class="Cogipix\CogimixSubsonicBundle\ViewHooks\Css\CssImportRenderer">
+            <tag name="cogimix.cssimport_renderer"/>
+        </service>
+                <service id="cogimix.subsonic.result_builder" class="Cogipix\CogimixSubsonicBundle\Services\ResultBuilder">
+            
+        </service>
+    </services>
+    
+</container>

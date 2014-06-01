@@ -1,0 +1,8 @@
+{% spaceless %}
+
+<ul id="subsonicServerInfoList" class="well">
+{% for subsonicInfo in subsonicInfos %}
+{% include 'CogimixSubsonicBundle:SubsonicServerInfo:listItem.html.twig' %}
+{% endfor %}
+</ul>
+{% endspaceless %}

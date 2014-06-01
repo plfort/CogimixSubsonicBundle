@@ -1,0 +1,40 @@
+{% if action =='edit' %}
+<div class="row">
+<a class="pull-right btn btn-mini btn-danger removeSubsonicServerInfoBtn" href="{{ path('_subsonic_remove',{id:subsonicInfo.id}) }}" >Remove</a>
+</div>
+{% endif %}
+<form action="{{ actionUrl }}" method="POST">
+
+<div class="row">
+<div class="formMessage">
+</div>
+{% if action =='edit' %}
+<div class="span3">
+Alias : <b>{{ subsonicInfo.alias }}</b>
+</div>
+{% endif %}
+{% if action =='create' %}
+<div class="span4">
+{{ form_row(form.alias) }}
+</div>
+{% endif %}
+<div class="span4">
+{{ form_row(form.name) }}
+</div>
+{{ form_errors(form.endPointUrl) }}
+<div class="span4 input-append">
+{{ form_row(form.endPointUrl) }}
+</div>
+<div class="span4 testCustomProviderResult">
+</div>
+<div class="span3">
+{{ form_row(form.username) }}
+</div>
+<div class="span3">
+{{ form_row(form.password) }}
+</div>
+{{ form_rest(form) }}
+<input type="submit" class="offset1 btn btn-success" value="Save"/>
+</div>
+</form>
+
