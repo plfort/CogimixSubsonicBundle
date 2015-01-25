@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 use Symfony\Component\Form\FormBuilderInterface;
 
-class SubsonicServerInfoEditFormType extends CustomProviderInfoFormType{
+class SubsonicServerInfoEditFormType extends SubsonicServerInfoFormType{
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);

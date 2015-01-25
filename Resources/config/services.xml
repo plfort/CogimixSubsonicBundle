@@ -10,6 +10,7 @@
             <argument type="service" id="security.context" />
             <argument type="service" id="cogimix.subsonic_plugin_factory" />
             <tag name="cogimix.plugin_provider"/>
+            <tag name="cogimix.playlist_renderer"/>
         </service>
         <service id="cogimix.subsonic_plugin_factory" class="Cogipix\CogimixSubsonicBundle\Services\SubsonicPluginFactory">
             <argument type="service" id="service_container"/>
@@ -32,6 +33,14 @@
         </service>
                 <service id="cogimix.subsonic.result_builder" class="Cogipix\CogimixSubsonicBundle\Services\ResultBuilder">
             
+        </service>
+        <service id="cogimix.subsonic.encryptor" class="DoctrineEncrypt\Encryptors\AES256Encryptor">
+            <argument type="string">%cogimix_subsonic.hash_secret%</argument>
+        </service>
+        <service id="cogimix.subsonic_server_info.suscriber" class="DoctrineEncrypt\Subscribers\DoctrineEncryptSubscriber">
+           <argument type="service" id="annotation_reader"/>
+           <argument type="service" id="cogimix.subsonic.encryptor"/>
+           <tag name="doctrine.event_subscriber" connection="default" />
         </service>
     </services>
     

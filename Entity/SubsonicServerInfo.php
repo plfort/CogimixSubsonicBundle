@@ -6,12 +6,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use DoctrineEncrypt\Configuration\Encrypted;
 /**
  *
  * @author plfort - Cogipix
  * @ORM\Entity
- * @UniqueEntity(fields="alias",message="Alias already used",groups={"Create"})
+ * @UniqueEntity(fields="alias",message="cogimix.subsonic_server_alias_already_used",groups={"Create"})
  */
 class SubsonicServerInfo
 {
@@ -47,12 +47,14 @@ class SubsonicServerInfo
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="This value should not be blank",groups={"CreateWithAuth"})
+     * @Assert\NotBlank(message="This value should not be blank",groups={"Create","Test"})
      */
     protected $username;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(message="This value should not be blank",groups={"Create","Test"})
+     * @Encrypted
      */
     protected $password;
 

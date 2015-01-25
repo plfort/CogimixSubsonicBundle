@@ -17,19 +17,19 @@ class SubsonicServerInfoFormType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
         ->add('name', 'text', array(
-                'label' => 'Display name'))
+                'label' => 'cogimix.subsonic_server_info.name'))
         ->add('alias', 'text', array(
-                        'label' => 'Unique alias'))
-        ->add('username','text',array('label'=>'Username','required'=>false))
-        ->add('password','text',array('label'=>'Password','required'=>false))
-       ->add('endPointUrl','text',array('label'=>'URL'));
+                        'label' => 'cogimix.subsonic_server_info.unique_alias'))
+        ->add('username','text',array('label'=>'cogimix.subsonic_server_info.username','required'=>false))
+        ->add('password','text',array('label'=>'cogimix.subsonic_server_info.password','required'=>false))
+       ->add('endPointUrl','text',array('label'=>'cogimix.subsonic_server_info.url'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Cogipix\CogimixSubsonicBundle\Entity\SubsonicServerInfo',
                 'validation_groups' => function(FormInterface $form) {
-                                $default = array('Create','CreateWithAuth');
+                                $default = array('Create');
                                 return $default;
                             },
         ));

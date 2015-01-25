@@ -1,11 +1,15 @@
 <div class="row">
-<div class="span6">
-<a id="createSubsonicServerInfoBtn" class="btn btn-success" href="#">Add</a>
+<div class="col-sm-12">
+<a id="createSubsonicServerInfoBtn" class="btn btn-success" href="#"><span class="glyphicon glyphicon-plus"></span> {{ 'cogimix.subsonic_server.add'|trans }}</a>
 </div>
-<div class="span2 subsonicServerListContainer">
-{% include 'CogimixSubsonicBundle:SubsonicServerInfo:list.html.twig' %}
+<div class="col-sm-3 subsonicServerListContainer">
+<ul id="subsonicServerInfoList" class="well">
+{% for subsonicInfo in subsonicInfos %}
+{% include 'CogimixSubsonicBundle:SubsonicServerInfo:listItem.html.twig' %}
+{% endfor %}
+</ul>
 </div>
-<div id="subsonicServerInfoForm" class="span4">
+<div id="subsonicServerInfoForm" class="col-sm-9">
 
 </div>
 </div>

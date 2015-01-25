@@ -1,0 +1,15 @@
+{% spaceless %}
+<li class="playlist-listitem subsonic-playlist-item draggable"
+data-alias="{{ 'subsonic'~item['id'] }}"
+data-serverid="{{serverInfo.id }}"
+data-droppedhook="subsonic-playlist"
+data-id="{{ item['id'] }}"
+data-toggle="tooltip"
+data-placement="right"
+title="{{ 'playlist_tooltip_duration'|trans({'%trackCount%':item['songCount'],'%duration%':item['duration']|date('H:i:s',false)}) }}">
+<a href="#" class="showPlaylistSubsonicBtn">{{ item['name'] }}</a>
+<div class="playlist-action">
+     <a class="playPlaylistSubsonicBtn actionBtn glyphicon glyphicon-play" href="#"></a>
+</div>
+</li>
+{% endspaceless %}

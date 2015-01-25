@@ -1,0 +1,26 @@
+{% block field_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+
+    {% for error in errors %}
+    <div class="help-inline">
+      {{ error.messageTemplate|trans(error.messageParameters, 'validators') }}
+    </div>
+    {% endfor %}
+
+    {% endif %}
+{% endspaceless %}
+{% endblock field_errors %}
+
+{% block form_errors %}
+{% spaceless %}
+{% if errors|length > 0 %}
+    <div class="text-danger" style="display: inline-block;">
+    {% for error in errors %}
+        {{ error.messageTemplate|trans(error.messageParameters, 'validators') }}
+        <br/>
+    {% endfor %}
+    </div>
+{% endif %}
+{% endspaceless %}
+{% endblock form_errors %}

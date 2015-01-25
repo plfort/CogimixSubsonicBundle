@@ -1,40 +1,71 @@
-{% if action =='edit' %}
+{% form_theme form 'CogimixSubsonicBundle:SubsonicServerInfo:form.html.twig' %}
 <div class="row">
-<a class="pull-right btn btn-mini btn-danger removeSubsonicServerInfoBtn" href="{{ path('_subsonic_remove',{id:subsonicInfo.id}) }}" >Remove</a>
-</div>
-{% endif %}
-<form action="{{ actionUrl }}" method="POST">
+<div class="col-sm-12">
 
-<div class="row">
+<form class="form-horizontal" action="{{ actionUrl }}" method="POST">
 <div class="formMessage">
 </div>
 {% if action =='edit' %}
-<div class="span3">
+<div class="row">
+<div class="col-sm-12">
 Alias : <b>{{ subsonicInfo.alias }}</b>
+</div>
 </div>
 {% endif %}
 {% if action =='create' %}
-<div class="span4">
-{{ form_row(form.alias) }}
+<div class="form-group">
+
+    {{ form_label(form.alias,null,{'label_attr':{'class':'col-sm-3'} }) }}
+    <div class="col-sm-8">
+    {{ form_widget(form.alias,{'attr':{'class':'form-control'} }) }}
+     {{ form_errors(form.alias,{'attr':{'class':'help-block text-danger' }}) }}
+    </div>
 </div>
 {% endif %}
-<div class="span4">
-{{ form_row(form.name) }}
+<div class="form-group">
+ {{ form_errors(form.name) }}
+{{ form_label(form.name,null,{'label_attr':{'class':'col-sm-3'} }) }}
+<div class="col-sm-8">
+{{ form_widget(form.name,{'attr':{'class':'form-control'} }) }}
 </div>
-{{ form_errors(form.endPointUrl) }}
-<div class="span4 input-append">
-{{ form_row(form.endPointUrl) }}
 </div>
-<div class="span4 testCustomProviderResult">
+<div class="form-group">
+    {{ form_errors(form.endPointUrl) }}
+    {{ form_label(form.endPointUrl,null,{'label_attr':{'class':'col-sm-3'} }) }}
+    <div class="col-sm-8">
+        <div class="input-group">
+            {{ form_widget(form.endPointUrl,{'attr':{'class':'form-control'} }) }}
+            <span class="input-group-btn"><a class="btn btn-success testSubsonicServerBtn">Test</a></span>
+        </div>
+    </div>
 </div>
-<div class="span3">
-{{ form_row(form.username) }}
+<div class="col-sm-12 testSubsonicServerResult">
 </div>
-<div class="span3">
-{{ form_row(form.password) }}
+<div class="form-group">
+ {{ form_errors(form.username) }}
+{{ form_label(form.username,null,{'label_attr':{'class':'col-sm-3'} }) }}
+<div class="col-sm-8">
+{{ form_widget(form.username,{'attr':{'class':' form-control'} }) }}
+</div>
+</div>
+<div class="form-group">
+
+{{ form_label(form.password,null,{'label_attr':{'class':'col-sm-3'} }) }}
+<div class="col-sm-8">
+{{ form_widget(form.password,{'attr':{'class':' form-control'} }) }}
+ {{ form_errors(form.password) }}
+</div>
 </div>
 {{ form_rest(form) }}
-<input type="submit" class="offset1 btn btn-success" value="Save"/>
+<div class="row">
+<div class="col-sm-12">
+{% if action =='edit' %}
+<a class="pull-left btn btn-mini btn-danger removeSubsonicServerInfoBtn" href="{{ path('_subsonic_remove',{id:subsonicInfo.id}) }}" ><span class="glyphicon glyphicon-remove"></span>{{ 'cogimix.subsonic_server.remove'|trans }}</a>
+{% endif %}
+<input type="submit" class="btn btn-info pull-right" value="{{ 'cogimix.subsonic_server.save'|trans }}"/>
+</div>
 </div>
 </form>
+</div>
+</div>
 

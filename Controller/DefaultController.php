@@ -9,13 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Cogipix\CogimixSubsonicBundle\Form\SubsonicServerInfoFormType;
+use Cogipix\CogimixSubsonicBundle\Form\SubsonicServerInfoEditFormType;
 use Cogipix\CogimixSubsonicBundle\Entity\SubsonicServerInfo;
 
 /**
  * @Route("/subsonic")
- * 
+ *
  * @author plfort - Cogipix
- *        
+ *
  */
 class DefaultController extends Controller
 {
@@ -49,11 +50,11 @@ class DefaultController extends Controller
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $subsonicInfo = new SubsonicServerInfo();
-        
+
         $subsonicInfo->setUser($user);
         $action = 'create';
         $response->addData('formType', $action);
-        
+
         $form = $this->createForm(new SubsonicServerInfoFormType(), $subsonicInfo);
         if ($request->getMethod() === 'POST') {
             $form->bind($request);
@@ -82,7 +83,7 @@ class DefaultController extends Controller
                 'form' => $form->createView()
             )));
         }
-        
+
         return $response->createResponse();
     }
 
@@ -93,25 +94,25 @@ class DefaultController extends Controller
     public function editSubsonicServerInfoAction(Request $request, $id)
     {
         $response = new AjaxResult();
-        
+
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $subsonicInfo = $em->getRepository('CogimixSubsonicBundle:SubsonicServerInfo')->findOneById($id);
-        if ($subsonicInfo !== null && $subsonicInfo->getUser() == $user) {
+        $subsonicInfo = $em->getRepository('CogimixSubsonicBundle:SubsonicServerInfo')->findOneBy(array('id'=>$id,'user'=>$user));
+        if ($subsonicInfo !== null) {
             $actionUrl = $this->generateUrl('_subsonic_edit', array(
                 'id' => $id
             ));
             $action = 'edit';
             $response->addData('formType', $action);
-            $form = $this->createForm(new SubsonicInfoEditFormType(), $subsonicInfo);
-            
+            $form = $this->createForm(new SubsonicServerInfoEditFormType(), $subsonicInfo);
+
             if ($request->getMethod() === 'POST') {
                 $form->bind($request);
                 if ($form->isValid()) {
                     $em->flush();
                     $response->setSuccess(true);
                 } else {
-                    
+
                     $response->setSuccess(false);
                     $response->addData('formHtml', $this->renderView('CogimixSubsonicBundle:SubsonicServerInfo:formContent.html.twig', array(
                         'action' => $action,
@@ -130,7 +131,45 @@ class DefaultController extends Controller
                 )));
             }
         }
-        
+
+        return $response->createResponse();
+    }
+
+
+    /**
+     *  @Secure(roles="ROLE_USER")
+     *  @Route("/test",name="_subsonicserver_test",options={"expose"=true})
+     */
+    public function testSubsonicServerAction(Request $request){
+        $response = new AjaxResult();
+
+        $subsonicInfo = new SubsonicServerInfo();
+        $form = $this->createForm(new SubsonicServerInfoFormType(),$subsonicInfo,array('validation_groups'=>array('Test')));
+        $params= $request->request->get('custom_provider_create_form');
+        if(isset($params['alias'])){
+            unset($params['alias']);
+            $request->request->set('subsonic_server_create_form', $params);
+        }
+
+        if($request->getMethod()==='POST'){
+            $form->bind($request);
+            if($form->isValid()){
+
+                $plugin= $this->get('cogimix.subsonic_plugin_factory')->createSubsonicPlugin($subsonicInfo);
+                if(($responsePlugin = $plugin->testRemote()) !==false){
+                    $response->setSuccess(true);
+                    $response->addData('message', $this->get('translator')->trans('cogimix.subsonic_server_test_success'));
+                }else{
+                    $response->setSuccess(false);
+                    $response->addData('message', $this->get('translator')->trans("cogimix.subsonic_server_test_fail"));
+                }
+
+            }else{
+
+                $response->setSuccess(false);
+                $response->addData('message', $this->get('translator')->trans("cogimix.subsonic_server_info.errors_in_form"));
+            }
+        }
         return $response->createResponse();
     }
 
@@ -141,17 +180,37 @@ class DefaultController extends Controller
     public function removeSubsonicServerInfoAction(Request $request, $id)
     {
         $response = new AjaxResult();
-        
+
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $subsonicInfo = $em->getRepository('CogimixSubsonicBundle:SubsonicServerInfo')->findOneById($id);
-        if ($subsonicInfo !== null && $subsonicInfo->getUser() == $user) {
+        $subsonicInfo = $em->getRepository('CogimixSubsonicBundle:SubsonicServerInfo')->findOneBy(array('id'=>$id,'user'=>$user));
+        if ($subsonicInfo !== null) {
             $em->remove($subsonicInfo);
             $em->flush();
             $response->setSuccess(true);
             $response->addData('id', $id);
         }
-        
+
         return $response->createResponse();
+    }
+
+    /**
+     * @Secure(roles="ROLE_USER")
+     * @Route("/playlist/{serverId}/{playlistId}",name="_subsonic_playlist_songs",options={"expose"=true})
+     */
+    public function getPlaylistSongsAction($serverId,$playlistId)
+    {
+        $ajaxResponse = new AjaxResult();
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $subsonicInfo = $em->getRepository('CogimixSubsonicBundle:SubsonicServerInfo')->findOneBy(array('id'=>$serverId,'user'=>$user));
+        if($subsonicInfo){
+            $subsonicPlugin = $this->get('cogimix.subsonic_plugin_factory')->createSubsonicPlugin($subsonicInfo);
+            $tracks = $subsonicPlugin->getPlaylistTracks($playlistId);
+            $ajaxResponse->addData('tracks', $tracks);
+            $ajaxResponse->setSuccess(true);
+        }
+
+        return $ajaxResponse->createResponse($this->get('jms_serializer'));
     }
 }

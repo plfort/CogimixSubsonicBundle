@@ -1,0 +1,13 @@
+cogimix.manage_subsonic_servers: Manage Subsonic servers
+cogimix.subsonic_server.add: Add
+cogimix.subsonic_server.save: Save
+cogimix.subsonic_server.saved: Saved !
+cogimix.subsonic_server_alias_already_used: This alias is already used.
+cogimix.subsonic_server_test_success: Server found!
+cogimix.subsonic_server_test_fail: Can't access the server, check the form.
+cogimix.subsonic_server_info.unique_alias: Alias (no space)
+cogimix.subsonic_server_info.name: Name
+cogimix.subsonic_server_info.url: URL
+cogimix.subsonic_server_info.username: Username
+cogimix.subsonic_server_info.password: Password
+cogimix.subsonic_server_info.errors_in_form: Errors in form

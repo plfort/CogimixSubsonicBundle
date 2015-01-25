@@ -1,0 +1,18 @@
+<ul id="subsonic-playlist-container" class="external-playlist">
+{% if playlists is not empty %}
+    {% for name,serverPlaylists in  playlists%}
+        {% if serverPlaylists is not empty %}
+        <li><img class="playlist-icon" src="{{ asset('bundles/cogimixsubsonic/images/subsonic-icon.png') }}"/><a data-toggle="collapse"  href="#subsonic-playlist-list-{{ serverInfo.alias }}"> {{ name }}</a></li>
+        {% endif %}
+        <ul id="subsonic-playlist-list-{{ serverInfo.alias }}" class="subPlaylist collapse out">
+        {% if serverPlaylists is not empty %}
+            {% for item in serverPlaylists %}
+                {% include 'CogimixSubsonicBundle:Playlist:item.html.twig' %}
+            {% endfor %}
+        {% else %}
+        <li>No Subsonic playlist</li>
+        {% endif %}
+        </ul>
+    {% endfor %}
+{% endif %}
+</ul>
