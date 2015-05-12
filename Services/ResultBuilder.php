@@ -2,7 +2,6 @@
 namespace Cogipix\CogimixSubsonicBundle\Services;
 
 use Cogipix\CogimixCommonBundle\ResultBuilder\ResultBuilderInterface;
-use Cogipix\CogimixCommonBundle\Entity\TrackResult;
 use Cogipix\CogimixSubsonicBundle\Entity\SubsonicServerInfo;
 use Cogipix\CogimixSubsonicBundle\Entity\SubsonicResult;
 class ResultBuilder implements ResultBuilderInterface{

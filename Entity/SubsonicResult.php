@@ -1,22 +1,18 @@
 <?php
 namespace Cogipix\CogimixSubsonicBundle\Entity;
 
-use Cogipix\CogimixCommonBundle\Entity\TrackResult;
+use Cogipix\CogimixCommonBundle\Entity\Song;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
 /**
   * @JMSSerializer\AccessType("public_method")
+ * @ORM\MappedSuperclass()
  * @author plfort
  */
-class SubsonicResult extends TrackResult
+class SubsonicResult extends Song
 {
 
     protected $shareable=false;
-
-    public function __construct(){
-        parent::__construct();
-        
-    }
 
 
     public function setUrl($url)

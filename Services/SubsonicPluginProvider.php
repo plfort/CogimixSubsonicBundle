@@ -3,15 +3,17 @@ namespace Cogipix\CogimixSubsonicBundle\Services;
 
 use Cogipix\CogimixCommonBundle\Plugin\PluginProviderInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Cogipix\CogimixCommonBundle\ViewHooks\Playlist\PlaylistRendererListInterface;
 use Cogipix\CogimixSubsonicBundle\ViewHooks\Playlist\PlaylistRenderer;
+
+
 class SubsonicPluginProvider implements PluginProviderInterface, PlaylistRendererListInterface
 {
 
     private $om;
 
-    private $securityContext;
+    private $tokenStorage;
 
     protected $plugins = array();
 
@@ -21,10 +23,10 @@ class SubsonicPluginProvider implements PluginProviderInterface, PlaylistRendere
 
     private $pluginFactory;
 
-    public function __construct(ObjectManager $om, SecurityContextInterface $securityContext, SubsonicPluginFactory $factory)
+    public function __construct(ObjectManager $om, TokenStorageInterface $tokenStorageInterface, SubsonicPluginFactory $factory)
     {
         $this->om = $om;
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorageInterface;
         $this->pluginFactory = $factory;
     }
 
@@ -75,7 +77,7 @@ class SubsonicPluginProvider implements PluginProviderInterface, PlaylistRendere
     protected function getCurrentUser()
     {
         $user = null;
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
         if($token){
             $user = $token->getUser();
         }

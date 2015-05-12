@@ -7,7 +7,7 @@
     <services>
         <service id="cogimix.subsonic.plugin_provider" class="Cogipix\CogimixSubsonicBundle\Services\SubsonicPluginProvider">
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="security.context" />
+            <argument type="service" id="security.token_storage" />
             <argument type="service" id="cogimix.subsonic_plugin_factory" />
             <tag name="cogimix.plugin_provider"/>
             <tag name="cogimix.playlist_renderer"/>
