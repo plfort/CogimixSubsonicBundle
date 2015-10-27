@@ -20,6 +20,7 @@ class SubsonicPluginFactory{
         $customProviderPlugin->setLogger($this->container->get('logger'));
         $customProviderPlugin->setSubsonicServerInfo($subsonicServerInfo);
         $customProviderPlugin->setSerializer($this->container->get('jms_serializer'));
+        $customProviderPlugin->setSongManager($this->container->get('cogimix.song_manager'));
        return $customProviderPlugin;
     }
 }
