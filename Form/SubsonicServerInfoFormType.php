@@ -2,6 +2,7 @@
 namespace Cogipix\CogimixSubsonicBundle\Form;
 use Symfony\Component\Form\FormInterface;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,13 +26,14 @@ class SubsonicServerInfoFormType extends AbstractType{
        ->add('endPointUrl','text',array('label'=>'cogimix.subsonic_server_info.url'));
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Cogipix\CogimixSubsonicBundle\Entity\SubsonicServerInfo',
-                'validation_groups' => function(FormInterface $form) {
-                                $default = array('Create');
-                                return $default;
-                            },
+            'validation_groups' => function(FormInterface $form) {
+                $default = array('Create');
+                return $default;
+            },
         ));
     }
 

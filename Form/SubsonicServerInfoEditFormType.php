@@ -2,6 +2,7 @@
 namespace Cogipix\CogimixSubsonicBundle\Form;
 use Symfony\Component\Form\FormInterface;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -18,13 +19,14 @@ class SubsonicServerInfoEditFormType extends SubsonicServerInfoFormType{
         $builder->remove('alias');
 
     }
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Cogipix\CogimixSubsonicBundle\Entity\SubsonicServerInfo',
-                'validation_groups' => function(FormInterface $form) {
-                                $default = array('Edit','CreateWithAuth');
-                                return $default;
-                            },
+            'validation_groups' => function(FormInterface $form) {
+                $default = array('Edit','CreateWithAuth');
+                return $default;
+            },
         ));
     }
 
